@@ -44,12 +44,12 @@ void free_mesh(Mesh *M);
     /**
      * @brief number of elements allocated
      */
-    uint size;
+    size_t size;
 
     /**
      * @brief number of nodes included
      */
-    uint len;
+    size_t len;
 
     /**
      * @brief children node data
