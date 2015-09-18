@@ -27,6 +27,11 @@ typedef struct {
 Mesh cube_mesh();
 Mesh plane_mesh();
 
+Mesh make_mesh(Vertex *verts, 
+               int n_verts, 
+               uint32_t *indices, 
+               int n_indices);
+
 /**
  * frees buffers from GPU
  **/

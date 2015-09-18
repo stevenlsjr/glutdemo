@@ -19,9 +19,7 @@
 #include <math.h>
 
 
-static Mesh _mesh_factory(Vertex *verts, GLuint *index,int nverts,int nindex);
-
-static Mesh _mesh_factory(Vertex *verts, GLuint *index,int nverts,int nindex)
+Mesh _mesh_factory(Vertex *verts, GLuint *index,int nverts,int nindex)
 {
     Mesh mesh;
     
@@ -157,6 +155,15 @@ Mesh plane_mesh()
     free(vertptr);
     free(indptr);
     return plane;
+}
+
+
+Mesh make_mesh(Vertex *verts, 
+               int n_verts, 
+               uint32_t *indices, 
+               int n_indices)
+{
+    return _mesh_factory(verts, indices, n_verts, n_indices);
 }
 
 static inline void print_verts(Vertex *verts, int nverts) {

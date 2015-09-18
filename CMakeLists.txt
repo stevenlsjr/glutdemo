@@ -14,6 +14,8 @@ set(GLUTDEMO_SRC
     src/shaderutils.h
     src/transform.c
     src/transform.h
+    src/scene.c
+    src/scene.h
 
     src/macros/applyall.h
     src/macros/constants.h
@@ -28,6 +30,14 @@ find_package(DevIL)
 set(CMAKE_C_FLAGS
     "${CMAKE_C_FLAGS} -std=gnu11")
 
+set(DEPENDENCIES
+    ${OPENGL_LIBRARIES}
+    ${IL_LIBRARIES}
+    ${ILU_LIBRARIES}
+    ${ILUT_LIBRARIES}
+    ${GLEW_LIBRARIES}
+    ${GLUT_LIBRARY})
+
 include_directories(
     ${IL_INCLUDE_DIRS}
     ${OPENGL_INCLUDE_DIRS}
@@ -40,10 +50,15 @@ add_executable(glutdemo_bin
 
 target_link_libraries(
     glutdemo_bin
-    ${OPENGL_LIBRARIES}
-    ${IL_LIBRARIES}
-    ${ILU_LIBRARIES}
-    ${ILUT_LIBRARIES}
-    ${GLEW_LIBRARIES}
-    ${GLUT_LIBRARIES}
-    )
+    ${DEPENDENCIES})
+
+add_custom_command(
+    TARGET glutdemo_bin PRE_BUILD
+    COMMAND
+    ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/resources ${CMAKE_BINARY_DIR}/resources &&
+    ${CMAKE_COMMAND} -E cmake_echo_color --green
+    "--    copying resources/ to ${CMAKE_BINARY_DIR}"
+    COMMENT "")
+
+

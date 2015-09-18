@@ -33,9 +33,10 @@ int main (int argc, char *argv[])
 	init_resources();
     
     /** load images */
-    const char *paths[] = {
-        "art/grad.png", "art/grad1.png", "art/grad2.png", NULL
-    };
+    const char *paths[] = {"resources/art/grad.png", 
+                           "resources/art/grad1.png", 
+                           "resources/art/grad2.png", 
+                           NULL};
     int len = 0;
     for (int i=0; paths[i] != NULL; i++) {
         len ++;
