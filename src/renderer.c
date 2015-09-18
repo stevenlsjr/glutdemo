@@ -517,7 +517,7 @@ void on_keystroke(unsigned char key, int x, int y)
     default:
       break;
   }
-
+t
   //printf("%f\n", xDt);
 
 
