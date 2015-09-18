@@ -67,7 +67,7 @@ static Mesh xPoly;
 
 static double xDt = 0.1;
 
-static SceneName xScene_name = SCENE_POLY;
+static SceneName xScene_name = SCENE_SQUARES;
 
 srTransform xCamera = {
     .pos = {0.0, 0.0, -5.0},
@@ -157,9 +157,9 @@ void make_poly()
   };
 
   const int n_verts = sizeof(verts) / sizeof(Vertex);
-  float color[4] = {39/(float)255, 97/(float)255, 39/(float)255};
+  float color[4] = {39 / (float) 255, 97 / (float) 255, 39 / (float) 255};
 
-  for (int i=0; i<n_verts; ++i) {
+  for (int i = 0; i < n_verts; ++i) {
     memcpy(verts[i].color, color, sizeof(float[4]));
   }
 
@@ -210,7 +210,7 @@ void make_circle()
     // just set index to corespond to vert location. Draw Circle with
     // GL_TRIANGLE_FAN
     n_indices = i;
-    indices[i] = (GLuint)i;
+    indices[i] = (GLuint) i;
   }
 
   xCircle = make_mesh(verts, n_verts, indices, n_indices);
@@ -408,11 +408,20 @@ void on_resize(int w, int h)
 void on_idle()
 {
   static clock_t last_time = NAN;
-  if (last_time == NAN) { last_time = clock(); }
+  if (last_time == NAN) {
+    last_time = clock();
+    xDt = 0.0;
+  }
 
   clock_t t = clock();
+  const float interval = 1.0f/60.0f;
 
-  xDt = (t - last_time) / (double) CLOCKS_PER_SEC;
+  xDt += (t - last_time) / (double) CLOCKS_PER_SEC;
+
+  if (xDt > interval) {
+    glutPostRedisplay();
+    xDt = 0;
+  }
 
 
   last_time = t;
@@ -429,7 +438,7 @@ void on_keystroke(unsigned char key, int x, int y)
 {
   mat4x4 matcpy;
 
-  float speed = 5000.0 * xDt;
+  float speed = 10.0 * xDt;
 
 
   switch (key) {
@@ -448,7 +457,7 @@ void on_keystroke(unsigned char key, int x, int y)
       break;
     }
     case 'w': {
-      mat4x4_translate_in_place(view, 0,  speed, 0);
+      mat4x4_translate_in_place(view, 0, speed, 0);
       break;
     }
     case 'e': {
@@ -509,6 +518,8 @@ void on_keystroke(unsigned char key, int x, int y)
       break;
   }
 
+  //printf("%f\n", xDt);
+
 
   glutPostRedisplay();
 }
@@ -534,7 +545,6 @@ int setup_gl(int argc, char *argv[])
   }
 
   printf("%s\n", glGetString(GL_VERSION));
-
 
 
   glEnable(GL_BLEND);
